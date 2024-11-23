@@ -30,6 +30,11 @@ option(USE_SYSTEM_FFMPEG "Prefer system ffmpeg instead of the prebuild one" OFF)
 option(USE_SYSTEM_OPENAL "Prefer system OpenAL instead of the prebuild one" ON)
 option(USE_SYSTEM_CURL "Prefer system Curl instead of the prebuild one" ON)
 option(USE_SYSTEM_OPENCV "Prefer system OpenCV instead of the builtin one" ON)
+option(USE_ANDROID "Enable Android-specific changes" OFF)
+option(USE_ANDROID_NDK "Enable Android NDK-specific changes" OFF)
+option(USE_ANDROID_SDK "Enable Android SDK-specific changes" OFF)
+option(USE_ANDROID_VULKAN "Enable Vulkan on Android" OFF)
+option(USE_ANDROID_JNI "Enable JNI on Android" OFF)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/buildfiles/cmake")
 

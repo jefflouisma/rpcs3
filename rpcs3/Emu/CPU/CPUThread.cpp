@@ -628,14 +628,14 @@ void cpu_thread::operator()()
 		}
 
 		~thread_cleanup_t()
-		{
-			if (_this)
 			{
-				sys_log.warning("CPU Thread '%s' terminated abnormally!", name);
-				cleanup();
+				if (_this)
+				{
+					sys_log.warning("CPU Thread '%s' terminated abnormally!", name);
+					cleanup();
+				}
 			}
-		}
-	} cleanup;
+		} cleanup;
 
 	cleanup._this = this;
 	cleanup.name = thread_ctrl::get_name();

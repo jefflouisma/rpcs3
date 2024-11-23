@@ -60,6 +60,14 @@ namespace aarch64
         const auto darwin_ctx = reinterpret_cast<aarch64_darwin_mcontext64*>(uctx->uc_mcontext);
         return darwin_ctx->es.ESR;
     }
+#elif defined(__ANDROID__)
+    u64 _read_ESR_EL1(const ucontext_t* uctx)
+    {
+        // Android-specific implementation
+        // Assuming similar structure to Linux
+        const auto& mctx = uctx->uc_mcontext;
+        return mctx.esr;
+    }
 #else
     u64 _read_ESR_EL1(const ucontext_t*)
     {

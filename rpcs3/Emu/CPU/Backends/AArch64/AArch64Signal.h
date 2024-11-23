@@ -38,6 +38,18 @@ namespace aarch64
         aarch64_exception_state es;
         // Other states we don't care about follow this field
     };
+#elif defined(__ANDROID__)
+    struct aarch64_cpu_ctx_block
+    {
+        u32 magic;
+        u32 size;
+    };
+
+    struct aarch64_esr_ctx
+    {
+        aarch64_cpu_ctx_block head;
+        u64 esr;      // Exception syndrome register
+    };
 #endif
 
 #pragma pack(pop)

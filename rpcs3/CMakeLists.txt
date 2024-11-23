@@ -153,7 +153,7 @@ if(APPLE)
 elseif(UNIX)
     add_custom_command(TARGET rpcs3 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/bin/Icons $<TARGET_FILE_DIR:rpcs3>/Icons
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/bin/GuiConfigs $<TARGET_FILE_DIR:rpcs3>/GuiConfigs
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_SOURCE_DIR}/bin/GuiConfigs $<TARGET_FILE_DIR:rpcs3>/GuiConfigs
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/bin/git $<TARGET_FILE_DIR:rpcs3>/git)
 elseif(WIN32)
     add_custom_command(TARGET rpcs3 POST_BUILD
@@ -190,3 +190,9 @@ if(UNIX AND NOT APPLE)
     install(DIRECTORY ../bin/test
         DESTINATION ${CMAKE_INSTALL_DATADIR}/rpcs3)
 endif()
+
+option(USE_ANDROID "Enable Android-specific changes" OFF)
+option(USE_ANDROID_NDK "Enable Android NDK-specific changes" OFF)
+option(USE_ANDROID_SDK "Enable Android SDK-specific changes" OFF)
+option(USE_ANDROID_VULKAN "Enable Vulkan on Android" OFF)
+option(USE_ANDROID_JNI "Enable JNI on Android" OFF)

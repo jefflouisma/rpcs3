@@ -44,6 +44,13 @@ cpu_translator::cpu_translator(llvm::Module* _module, bool is_be)
 			auto vec_len = llvm::ConstantInt::get(get_type<u32>(), 16);
 			auto index_masked = m_ir->CreateCall(get_intrinsic<u8[16]>(llvm::Intrinsic::vp_and), {index, mask, and_mask, vec_len});
 			return m_ir->CreateCall(get_intrinsic<u8[16]>(llvm::Intrinsic::aarch64_neon_tbl1), {data0, index_masked});
+#elif defined(ARCH_ANDROID)
+			// Android-specific implementation
+			auto mask = llvm::ConstantInt::get(get_type<u8[16]>(), 0x8F);
+			auto and_mask = llvm::ConstantInt::get(get_type<bool[16]>(), true);
+			auto vec_len = llvm::ConstantInt::get(get_type<u32>(), 16);
+			auto index_masked = m_ir->CreateCall(get_intrinsic<u8[16]>(llvm::Intrinsic::vp_and), {index, mask, and_mask, vec_len});
+			return m_ir->CreateCall(get_intrinsic<u8[16]>(llvm::Intrinsic::aarch64_neon_tbl1), {data0, index_masked});
 #else
 #error "Unimplemented"
 #endif
@@ -194,6 +201,12 @@ void cpu_translator::initialize(llvm::LLVMContext& context, llvm::ExecutionEngin
 		// AVX does not use intrinsics so far
 		m_use_avx = true;
 	}
+
+	// Android-specific initialization
+#if defined(ARCH_ANDROID)
+	m_use_fma = true;
+	m_use_avx = true;
+#endif
 }
 
 llvm::Value* cpu_translator::bitcast(llvm::Value* val, llvm::Type* type) const
